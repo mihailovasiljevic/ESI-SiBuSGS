@@ -1,9 +1,10 @@
 CREATE SCHEMA `white_list` ;
 
 CREATE TABLE `white_list`.`whitelist` (
-  `id` INT NOT NULL,
-  `hash` VARCHAR(64) NULL,
-  PRIMARY KEY (`id`));
+  `hash` VARCHAR(64) NOT NULL,
+  `name` VARCHAR(80) NULL,
+  PRIMARY KEY (`hash`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
 INSERT INTO `white_list`.`whitelist` (`id`, `hash`) VALUES ('1', '4fdad5001bc15133a8da52896f5fa1639a4e114e7ceacdd1ffb00d4c5ae3394b');
 
