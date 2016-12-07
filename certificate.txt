@@ -1,0 +1,22 @@
+Za root:
+putanja: C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin
+	makecert -n "CN=RootCA" -r -sv RootCA.pvk RootCA.cer - instalirati na Trusted Root Certification Auth
+password: root
+
+Za service:
+Napraviti usera wcfservice
+putanja: C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin
+password: service
+ 	makecert -sv WCFService.pvk -iv RootCA.pvk -n "CN=wcfservice" -pe -ic RootCA.cer WCFService.cer -sr localmachine -ss My -sky exchange 
+  	pvk2pfx.exe /pvk WCFService.pvk /pi service /spc WCFService.cer /pfx WCFService.pfx - instalirati na personal koristeci mark key as exportable
+putanja: C:\Program Files (x86)\Windows Resource Kits\Tools
+ 	winhttpcertcfg -g -c LOCAL_MACHINE\My -s wcfservice -a wcfservice 
+
+Za client:
+Napraviti usera wcfclient
+putanja: C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin
+password: client
+ 	makecert -sv WCFClient.pvk -iv RootCA.pvk -n "CN=wcfclient" -pe -ic RootCA.cer WCFClient.cer -sr localmachine -ss My -sky exchange 
+  	pvk2pfx.exe /pvk WCFClient.pvk /pi client /spc WCFClient.cer /pfx WCFClient.pfx - instalirati .pfx na personal koristeci mark key as exportable
+putanja: C:\Program Files (x86)\Windows Resource Kits\Tools
+ 	winhttpcertcfg -g -c LOCAL_MACHINE\My -s wcfclient -a wcfclient 
